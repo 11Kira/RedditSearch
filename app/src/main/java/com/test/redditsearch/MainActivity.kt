@@ -1,5 +1,7 @@
 package com.test.redditsearch
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -40,11 +42,18 @@ class MainActivity : AppCompatActivity() {
      * Initializes the recyclerView
      */
     private fun initRecyclerView(subredditList: List<ApiSubredditResponse>) {
+        val baseRedditUrl = "https://www.reddit.com"
         subredditListAdapter = RedditListAdapter(subredditList)
         binding.repoList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = subredditListAdapter
+        }
+        subredditListAdapter.onItemClick = { subreddit ->
+            val url = baseRedditUrl.plus(subreddit.permalink)
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(url)
+            })
         }
     }
 

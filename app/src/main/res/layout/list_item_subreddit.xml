@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
-            app:cardBackgroundColor="#FF5700"
+            app:cardBackgroundColor="#192841"
             app:cardCornerRadius="10dp"
             android:elevation="50dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -19,23 +19,15 @@
             tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/thumbImg"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/ic_launcher_background"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_marginTop="5dp"
-                    android:textColor="#ebebeb"
+                    android:textColor="@color/white"
                     android:layout_marginStart="20dp"
                     android:id="@+id/titleTxt"
                     android:layout_width="0dp"
@@ -43,7 +35,7 @@
                     android:layout_centerVertical="false"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/thumbImg"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     tools:text="Title text is so long that i need to test this one out"
                     android:ellipsize="end"
@@ -59,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="false"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/thumbImg"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleTxt"
                     tools:text="Subreddit Name" />
 
@@ -73,9 +65,21 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="false"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/thumbImg"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/subredditName"
                     tools:text="Author Name" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:visibility="gone"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/thumbImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_launcher_background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/authorTxt" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
