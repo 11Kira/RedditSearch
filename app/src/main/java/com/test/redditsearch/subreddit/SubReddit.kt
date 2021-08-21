@@ -12,8 +12,8 @@ data class Subreddit(
     val subredditNamePrefixed: String? = "",
     @SerializedName("permalink")
     val permalink: String? = "",
-    @SerializedName("url")
-    val imageUrl: String? = "",
+    @SerializedName("thumbnail")
+    val thumbnail: String? = "",
     @SerializedName("author")
     val author: String? = "",
 

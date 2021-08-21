@@ -29,12 +29,9 @@ class RedditListAdapter(
                 binding.titleTxt.text = subreddit.title
                 binding.subredditName.text = subreddit.subredditNamePrefixed
                 binding.authorTxt.text = author.plus(subreddit.author)
-                if (subreddit.imageUrl?.isNotBlank() == true) {
-                    binding.thumbImg.visibility = View.VISIBLE
-                    binding.thumbImg.load(subreddit.imageUrl) {
-                        crossfade(true)
-                        placeholder(R.drawable.ic_launcher_background)
-                    }
+                binding.thumbImg.visibility = View.VISIBLE
+                binding.thumbImg.load(subreddit.thumbnail) { crossfade(true)
+                    placeholder(R.drawable.ic_launcher_background)
                 }
             }
         }
