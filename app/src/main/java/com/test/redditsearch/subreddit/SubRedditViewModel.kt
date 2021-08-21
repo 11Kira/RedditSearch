@@ -23,24 +23,22 @@ class SubRedditViewModel : BaseViewModel() {
 
     /**
      * Retrieves all available subreddit
-     * @param query The search query to be submitted
-     * @param type The type of search
      */
-    fun searchRepositories(query: String, type: String) {
+    fun retrieveSubreddits() {
         _events.value = SubRedditEvent.OnStartLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = kotlin.runCatching { subRedditRepo.retrieveSubReddits() }
             withContext(Dispatchers.Main) {
                 result.onSuccess { response ->
-                    response?.data?.children?.let { repoList ->
-                        if (repoList.isEmpty()) {
+                    response?.data?.children?.let { subreddits ->
+                        if (subreddits.isEmpty()) {
                             _events.value = SubRedditEvent.OnNoAvailable
                         } else {
-                            _events.value = SubRedditEvent.OnFinishedLoading(repoList)
+                            _events.value = SubRedditEvent.OnFinishedLoading(subreddits)
                         }
                     }
                 }.onFailure { error ->
-                    _events.value = SubRedditEvent.OnFailedFetching(error.localizedMessage)
+                    _events.value = SubRedditEvent.OnFailedFetching(error.message.toString())
                 }
             }
         }

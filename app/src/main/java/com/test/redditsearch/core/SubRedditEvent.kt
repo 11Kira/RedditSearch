@@ -10,6 +10,6 @@ import com.test.redditsearch.subreddit.Subreddit
 sealed class SubRedditEvent : UIEvent {
     data class OnStartLoading(val success: Boolean) : SubRedditEvent()
     data class OnFailedFetching(val error: String) : SubRedditEvent()
-    data class OnFinishedLoading(val repositories: List<ApiSubredditResponse>) : SubRedditEvent()
+    data class OnFinishedLoading(val subreddits: List<ApiSubredditResponse>) : SubRedditEvent()
     object OnNoAvailable: SubRedditEvent()
 }

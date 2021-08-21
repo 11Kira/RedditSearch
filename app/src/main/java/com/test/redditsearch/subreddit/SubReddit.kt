@@ -5,15 +5,15 @@ import java.io.Serializable
 
 data class Subreddit(
     @SerializedName("id")
-    val id: Long,
+    val id: String = "",
     @SerializedName("title")
     val title: String = "",
     @SerializedName("subreddit_name_prefixed")
     val subredditNamePrefixed: String? = "",
     @SerializedName("permalink")
     val permalink: String? = "",
-    @SerializedName("url")
-    val imageUrl: String? = "",
+    @SerializedName("thumbnail")
+    val thumbnail: String? = "",
     @SerializedName("author")
     val author: String? = "",
 

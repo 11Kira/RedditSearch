@@ -1,6 +1,7 @@
 package com.test.redditsearch.subreddit
 
 import com.test.redditsearch.core.response.ApiResponse
+import com.test.redditsearch.core.response.ApiSubredditResponse
 import retrofit2.Response
 import retrofit2.http.GET
 
@@ -11,6 +12,5 @@ import retrofit2.http.GET
 interface SubRedditApi {
 
     @GET("all/")
-    suspend fun getAllSubreddits(
-    ): Response<ApiResponse>
+    suspend fun getAllSubreddits(): Response<ApiResponse<List<ApiSubredditResponse>>>
 }

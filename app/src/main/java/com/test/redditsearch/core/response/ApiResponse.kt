@@ -7,9 +7,9 @@ import java.io.Serializable
  * Data model for generic API responses.
  * @author Julius Villagracia
  */
-data class ApiResponse(
+data class ApiResponse<T>(
     @SerializedName("kind")
     val kind: String? = "",
     @SerializedName("data")
-    val data: ApiData
+    val data: ApiData<T>
 ): Serializable

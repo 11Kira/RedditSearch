@@ -8,11 +8,11 @@ import java.io.Serializable
  * Data model for generic API responses.
  * @author Julius Villagracia
  */
-data class ApiData(
+data class ApiData<T>(
     @SerializedName("before")
     val before: String? = "",
     @SerializedName("after")
     val after: String? = "",
     @SerializedName("children")
-    val children: List<ApiSubredditResponse>
+    val children: T
 ): Serializable

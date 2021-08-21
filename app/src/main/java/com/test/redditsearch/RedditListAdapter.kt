@@ -1,9 +1,12 @@
 package com.test.redditsearch
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.test.redditsearch.core.response.ApiSubredditResponse
 import com.test.redditsearch.databinding.ListItemSubredditBinding
 import com.test.redditsearch.subreddit.Subreddit
 
@@ -12,7 +15,7 @@ import com.test.redditsearch.subreddit.Subreddit
  * @author Julius Villagracia
  */
 class RedditListAdapter(
-    private var subredditList: List<Subreddit>
+    private var subredditList: List<ApiSubredditResponse>
 ) : RecyclerView.Adapter<RedditListAdapter.ViewHolder>() {
 
     lateinit var binding: ListItemSubredditBinding
@@ -20,11 +23,16 @@ class RedditListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (itemCount > 0) {
-            val subreddit = subredditList[position]
+            val subreddit = subredditList[position].data
+            val author = "Posted by: "
             holder.apply {
                 binding.titleTxt.text = subreddit.title
                 binding.subredditName.text = subreddit.subredditNamePrefixed
-                binding.authorTxt.text = subreddit.author
+                binding.authorTxt.text = author.plus(subreddit.author)
+                binding.thumbImg.visibility = View.VISIBLE
+                binding.thumbImg.load(subreddit.thumbnail) { crossfade(true)
+                    placeholder(R.drawable.ic_launcher_background)
+                }
             }
         }
     }
@@ -48,7 +56,7 @@ class RedditListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(subredditList[bindingAdapterPosition])
+                onItemClick?.invoke(subredditList[bindingAdapterPosition].data)
             }
         }
     }
