@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.test.redditsearch.databinding.ListItemSubredditBinding
+import com.test.redditsearch.subreddit.Subreddit
 
 /**
  * Adapter class for Reddit list items
@@ -21,8 +22,9 @@ class RedditListAdapter(
         if (itemCount > 0) {
             val subreddit = subredditList[position]
             holder.apply {
-                binding.repoNameTxt.text = subreddit.fullName
-                binding.descTxt.text = subreddit.description
+                binding.titleTxt.text = subreddit.title
+                binding.subredditName.text = subreddit.subredditNamePrefixed
+                binding.authorTxt.text = subreddit.author
             }
         }
     }

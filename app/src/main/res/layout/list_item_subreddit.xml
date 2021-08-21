@@ -25,7 +25,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ownerImg"
+                    android:id="@+id/thumbImg"
                     android:layout_width="85dp"
                     android:layout_height="85dp"
                     android:layout_alignParentStart="true"
@@ -37,29 +37,43 @@
                     android:layout_marginTop="5dp"
                     android:textColor="#ebebeb"
                     android:layout_marginStart="20dp"
-                    android:id="@+id/repoNameTxt"
+                    android:id="@+id/titleTxt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="false"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ownerImg"
+                    app:layout_constraintStart_toEndOf="@id/thumbImg"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    tools:text="Name" />
+                    tools:text="Title" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:textColor="@color/white"
                     android:maxLength="50"
                     android:singleLine="true"
                     android:layout_marginStart="20dp"
-                    android:id="@+id/descTxt"
+                    android:id="@+id/subredditName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="false"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ownerImg"
-                    app:layout_constraintTop_toBottomOf="@id/repoNameTxt"
-                    tools:text="Description" />
+                    app:layout_constraintStart_toEndOf="@id/thumbImg"
+                    app:layout_constraintTop_toBottomOf="@id/titleTxt"
+                    tools:text="Subreddit Name" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:textColor="@color/white"
+                    android:maxLength="50"
+                    android:singleLine="true"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/authorTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/thumbImg"
+                    app:layout_constraintTop_toBottomOf="@id/subredditName"
+                    tools:text="Author Name" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
