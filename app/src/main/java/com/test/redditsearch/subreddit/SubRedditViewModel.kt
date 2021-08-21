@@ -26,7 +26,7 @@ class SubRedditViewModel : BaseViewModel() {
      * @param query The search query to be submitted
      * @param type The type of search
      */
-    fun searchRepositories(query: String, type: String) {
+    fun retrieveSubreddits() {
         _events.value = SubRedditEvent.OnStartLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = kotlin.runCatching { subRedditRepo.retrieveSubReddits() }
