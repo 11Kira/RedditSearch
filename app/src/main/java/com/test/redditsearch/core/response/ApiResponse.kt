@@ -1,4 +1,4 @@
-package com.test.redditsearch.response
+package com.test.redditsearch.core.response
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
