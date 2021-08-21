@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class Subreddit(
     @SerializedName("id")
-    val id: Long,
+    val id: String = "",
     @SerializedName("title")
     val title: String = "",
     @SerializedName("subreddit_name_prefixed")

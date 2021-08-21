@@ -1,5 +1,6 @@
 package com.test.redditsearch.subreddit
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -23,8 +24,6 @@ class SubRedditViewModel : BaseViewModel() {
 
     /**
      * Retrieves all available subreddit
-     * @param query The search query to be submitted
-     * @param type The type of search
      */
     fun retrieveSubreddits() {
         _events.value = SubRedditEvent.OnStartLoading(true)
@@ -32,15 +31,18 @@ class SubRedditViewModel : BaseViewModel() {
             val result = kotlin.runCatching { subRedditRepo.retrieveSubReddits() }
             withContext(Dispatchers.Main) {
                 result.onSuccess { response ->
-                    response?.data?.children?.let { repoList ->
-                        if (repoList.isEmpty()) {
+                    response?.data?.children?.let { subreddits ->
+                        Log.e("test", response.toString())
+                        if (subreddits.isEmpty()) {
                             _events.value = SubRedditEvent.OnNoAvailable
+                            Log.e("test", response.toString())
                         } else {
-                            _events.value = SubRedditEvent.OnFinishedLoading(repoList)
+                            _events.value = SubRedditEvent.OnFinishedLoading(subreddits)
+                            Log.e("test", response.toString())
                         }
                     }
                 }.onFailure { error ->
-                    _events.value = SubRedditEvent.OnFailedFetching(error.localizedMessage)
+                    _events.value = SubRedditEvent.OnFailedFetching(error.message.toString())
                 }
             }
         }
