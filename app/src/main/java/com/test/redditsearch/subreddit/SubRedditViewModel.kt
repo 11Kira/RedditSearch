@@ -1,6 +1,5 @@
 package com.test.redditsearch.subreddit
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -32,13 +31,10 @@ class SubRedditViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 result.onSuccess { response ->
                     response?.data?.children?.let { subreddits ->
-                        Log.e("test", response.toString())
                         if (subreddits.isEmpty()) {
                             _events.value = SubRedditEvent.OnNoAvailable
-                            Log.e("test", response.toString())
                         } else {
                             _events.value = SubRedditEvent.OnFinishedLoading(subreddits)
-                            Log.e("test", response.toString())
                         }
                     }
                 }.onFailure { error ->

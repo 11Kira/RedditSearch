@@ -45,7 +45,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/thumbImg"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    tools:text="Title" />
+                    tools:text="Title text is so long that i need to test this one out"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:textColor="@color/white"
