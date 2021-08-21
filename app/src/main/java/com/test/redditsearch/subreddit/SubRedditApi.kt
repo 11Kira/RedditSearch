@@ -8,9 +8,9 @@ import retrofit2.http.GET
  * API interface for retrieving subreddits list
  * @author Julius Villagracia
  */
-interface SubredditApi {
+interface SubRedditApi {
 
     @GET("all/")
-    suspend fun searchRepositories(
+    suspend fun getAllSubreddits(
     ): Response<ApiResponse>
 }
