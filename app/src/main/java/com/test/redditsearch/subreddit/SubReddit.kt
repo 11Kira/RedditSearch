@@ -3,6 +3,10 @@ package com.test.redditsearch.subreddit
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * Model class for subreddit object
+ * @author Julius Villagracia
+ */
 data class Subreddit(
     @SerializedName("id")
     val id: String = "",
@@ -16,5 +20,7 @@ data class Subreddit(
     val thumbnail: String? = "",
     @SerializedName("author")
     val author: String? = "",
+    @SerializedName("display_name_prefixed")
+    val displayNamePrefixed: String? = "",
 
 ): Serializable

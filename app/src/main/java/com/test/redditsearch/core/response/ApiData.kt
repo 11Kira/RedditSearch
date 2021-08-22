@@ -1,7 +1,6 @@
 package com.test.redditsearch.core.response
 
 import com.google.gson.annotations.SerializedName
-import com.test.redditsearch.core.response.ApiSubredditResponse
 import java.io.Serializable
 
 /**
