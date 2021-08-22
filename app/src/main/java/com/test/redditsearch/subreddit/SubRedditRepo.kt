@@ -12,4 +12,8 @@ class SubRedditRepo(private val subRedditApi: SubRedditApi) {
         searchQuery: String,
         type: String
     ) = subRedditApi.searchSubreddit(searchQuery, type).body()
+
+    suspend fun getSubRedditDetails(
+        subreddit: String,
+    ) = subRedditApi.getSubredditDetails(subreddit).body()
 }

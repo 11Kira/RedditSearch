@@ -12,14 +12,14 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.test.redditsearch.core.SubRedditDetailsEvent
 import com.test.redditsearch.core.SubRedditEvent
+import com.test.redditsearch.core.SubRedditSearchEvent
 import com.test.redditsearch.core.response.ApiSubredditResponse
 import com.test.redditsearch.databinding.ActivityMainBinding
 import com.test.redditsearch.subreddit.SubRedditViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 /**
  * Main activity class
@@ -37,7 +37,17 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initSearch(binding.searchBox)
         retrieveAllSubreddits()
-        observeRetrievedResults()
+        observeRetrievedSubreddits()
+        observeSearchResults()
+        observeRetrievedDetails()
+    }
+
+    override fun onBackPressed() {
+        if (binding.searchResultList.isVisible) {
+            binding.searchResultList.visibility = View.GONE
+        } else {
+            super.onBackPressed()
+        }
     }
 
     /**
@@ -77,42 +87,14 @@ class MainActivity : AppCompatActivity() {
      * Initializes the recyclerView
      */
     private fun initSearchRv(subredditList: List<ApiSubredditResponse>) {
-        //val baseRedditUrl = "https://www.reddit.com"
         subredditSearchListAdapter = RedditSearchListAdapter(subredditList)
         binding.searchResultList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = subredditSearchListAdapter
         }
-/*        subredditListAdapter.onItemClick = { subreddit ->
-            val url = baseRedditUrl.plus(subreddit.permalink)
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(url)
-            })
-        }*/
-    }
-
-    /**
-     * Observes the search results livedata
-     */
-    private fun observeRetrievedResults() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.events.observe(this@MainActivity) { event ->
-                when (event) {
-                    is SubRedditEvent.OnFinishedLoading -> {
-                        initRecyclerView(event.subreddits)
-                    }
-                    is SubRedditEvent.OnNoAvailable -> {
-                        //no available item
-                    }
-                    is SubRedditEvent.OnFailedFetching -> {
-                        Log.e("ERROR", event.error)
-                    }
-                    is SubRedditEvent.OnFinishedLoadingSearchResults -> {
-                        initSearchRv(event.subreddits)
-                    }
-                }
-            }
+        subredditSearchListAdapter.onItemClick = { subredditNamePrefixed ->
+            viewModel.getSubRedditDetails(subredditNamePrefixed)
         }
     }
 
@@ -140,11 +122,48 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onBackPressed() {
-        if (binding.searchResultList.isVisible) {
-            binding.searchResultList.visibility = View.GONE
-        } else {
-            super.onBackPressed()
+    /**
+     * Observes the livedata for retrieving all subreddits
+     */
+    private fun observeRetrievedSubreddits() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.events.observe(this@MainActivity) { event ->
+                when (event) {
+                    is SubRedditEvent.OnFinishedLoading -> {
+                        initRecyclerView(event.subreddits)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Observes the search results livedata
+     */
+    private fun observeSearchResults() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.events.observe(this@MainActivity) { event ->
+                when (event) {
+                    is SubRedditSearchEvent.OnFinishedLoadingSearchResults -> {
+                        initSearchRv(event.subreddits)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Observes the livedata for subreddit details
+     */
+    private fun observeRetrievedDetails() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.events.observe(this@MainActivity) { event ->
+                when (event) {
+                    is SubRedditDetailsEvent.OnFinishedLoadingDetails -> {
+
+                    }
+                }
+            }
         }
     }
 }

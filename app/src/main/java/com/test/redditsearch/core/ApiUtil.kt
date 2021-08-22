@@ -6,5 +6,5 @@ package com.test.redditsearch.core
  */
 object ApiUtil {
 
-    fun getApiUrl(): String =  "https://api.reddit.com/r/"
+    fun getApiUrl(): String =  "https://api.reddit.com/"
 }
