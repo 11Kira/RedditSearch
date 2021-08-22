@@ -6,24 +6,25 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.test.redditsearch.core.BaseActivity
 import com.test.redditsearch.core.SubRedditEvent
 import com.test.redditsearch.core.SubRedditSearchEvent
 import com.test.redditsearch.core.response.ApiSubredditResponse
 import com.test.redditsearch.databinding.ActivityMainBinding
 import com.test.redditsearch.subreddit.SubRedditViewModel
+import com.test.redditsearch.utils.NetworkUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Main activity class
  * @author Julius Villagracia
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     lateinit var binding: ActivityMainBinding
     private val viewModel: SubRedditViewModel by viewModel()
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
      * Submits a request to fetch all available subreddits
      */
     private fun retrieveAllSubreddits() {
-        viewModel.retrieveSubreddits()
+        NetworkUtil.checkInternetConnectivity(this) { viewModel.retrieveSubreddits() }
     }
 
     /**
@@ -59,11 +60,12 @@ class MainActivity : AppCompatActivity() {
      * @param searchQuery The search query to be passed to viewModel
      */
     private fun searchSubReddit(searchQuery: String) {
-        viewModel.searchSubreddits(searchQuery, "sr")
+        NetworkUtil.checkInternetConnectivity(this) { viewModel.searchSubreddits(searchQuery, "sr") }
     }
 
     /**
      * Initializes the recyclerView
+     * @param subredditList List of subreddits to be passed to adapter
      */
     private fun initRecyclerView(subredditList: List<ApiSubredditResponse>) {
         val baseRedditUrl = "https://www.reddit.com"
@@ -83,6 +85,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Initializes the search result recyclerView
+     * @param subredditList List of subreddits to be passed to adapter
      */
     private fun initSearchRv(subredditList: List<ApiSubredditResponse>) {
         subredditSearchListAdapter = RedditSearchListAdapter(subredditList)
@@ -133,6 +136,13 @@ class MainActivity : AppCompatActivity() {
                     is SubRedditEvent.OnFinishedLoading -> {
                         initRecyclerView(event.subreddits)
                     }
+                    is SubRedditEvent.OnFailedFetching -> {
+                        showAlert(
+                            "Error",
+                            event.error,
+                            R.string.ok
+                        ) { alertDialog?.dismiss() }
+                    }
                 }
             }
         }
@@ -147,6 +157,13 @@ class MainActivity : AppCompatActivity() {
                 when (event) {
                     is SubRedditSearchEvent.OnFinishedLoadingSearchResults -> {
                         initSearchRv(event.subreddits)
+                    }
+                    is SubRedditSearchEvent.OnFailedFetching -> {
+                        showAlert(
+                            "Error",
+                            event.error,
+                            R.string.ok
+                        ) { alertDialog?.dismiss() }
                     }
                 }
             }

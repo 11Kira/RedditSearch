@@ -3,21 +3,22 @@ package com.test.redditsearch
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.test.redditsearch.core.BaseActivity
 import com.test.redditsearch.core.SubRedditDetailsEvent
 import com.test.redditsearch.core.response.ApiSubredditResponse
 import com.test.redditsearch.databinding.ActivitySubredditBinding
 import com.test.redditsearch.subreddit.SubRedditViewModel
+import com.test.redditsearch.utils.NetworkUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Activity class for displaying the user selected/searched subreddit
  * @author Julius Villagracia
  */
-class SubRedditActivity : AppCompatActivity() {
+class SubRedditActivity : BaseActivity() {
 
     lateinit var binding: ActivitySubredditBinding
     private val viewModel: SubRedditViewModel by viewModel()
@@ -27,7 +28,7 @@ class SubRedditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_subreddit)
         intent.getStringExtra("subreddit")?.let {
-            viewModel.getSubRedditDetails(it)
+            NetworkUtil.checkInternetConnectivity(this) { viewModel.getSubRedditDetails(it) }
             binding.subRedditName.text = it
         }
         observeRetrievedDetails()
@@ -35,6 +36,7 @@ class SubRedditActivity : AppCompatActivity() {
 
     /**
      * Initializes the recyclerView
+     * @param subredditList List of subreddit to be passed to the adapter
      */
     private fun initRecyclerView(subredditList: List<ApiSubredditResponse>) {
         val baseRedditUrl = "https://www.reddit.com"
@@ -61,6 +63,13 @@ class SubRedditActivity : AppCompatActivity() {
                 when (event) {
                     is SubRedditDetailsEvent.OnFinishedLoadingDetails -> {
                         initRecyclerView(event.subreddits)
+                    }
+                    is SubRedditDetailsEvent.OnFailedFetching -> {
+                        showAlert(
+                            "Error",
+                            event.error,
+                            R.string.ok
+                        ) { alertDialog?.dismiss() }
                     }
                 }
             }
