@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
@@ -13,7 +12,6 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.test.redditsearch.core.SubRedditDetailsEvent
 import com.test.redditsearch.core.SubRedditEvent
 import com.test.redditsearch.core.SubRedditSearchEvent
 import com.test.redditsearch.core.response.ApiSubredditResponse
@@ -39,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         retrieveAllSubreddits()
         observeRetrievedSubreddits()
         observeSearchResults()
-        observeRetrievedDetails()
     }
 
     override fun onBackPressed() {
@@ -59,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Submits a query for searching subreddits
+     * @param searchQuery The search query to be passed to viewModel
      */
     private fun searchSubReddit(searchQuery: String) {
         viewModel.searchSubreddits(searchQuery, "sr")
@@ -84,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Initializes the recyclerView
+     * Initializes the search result recyclerView
      */
     private fun initSearchRv(subredditList: List<ApiSubredditResponse>) {
         subredditSearchListAdapter = RedditSearchListAdapter(subredditList)
@@ -94,7 +92,10 @@ class MainActivity : AppCompatActivity() {
             adapter = subredditSearchListAdapter
         }
         subredditSearchListAdapter.onItemClick = { subredditNamePrefixed ->
-            viewModel.getSubRedditDetails(subredditNamePrefixed)
+            startActivity(Intent(
+                this@MainActivity,
+                SubRedditActivity::class.java
+            ).putExtra("subreddit", subredditNamePrefixed))
         }
     }
 
@@ -146,21 +147,6 @@ class MainActivity : AppCompatActivity() {
                 when (event) {
                     is SubRedditSearchEvent.OnFinishedLoadingSearchResults -> {
                         initSearchRv(event.subreddits)
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Observes the livedata for subreddit details
-     */
-    private fun observeRetrievedDetails() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.events.observe(this@MainActivity) { event ->
-                when (event) {
-                    is SubRedditDetailsEvent.OnFinishedLoadingDetails -> {
-
                     }
                 }
             }

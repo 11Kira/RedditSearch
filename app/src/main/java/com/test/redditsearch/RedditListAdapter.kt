@@ -30,8 +30,15 @@ class RedditListAdapter(
                 binding.subredditName.text = subreddit.subredditNamePrefixed
                 binding.authorTxt.text = author.plus(subreddit.author)
                 binding.thumbImg.visibility = View.VISIBLE
-                binding.thumbImg.load(subreddit.thumbnail) { crossfade(true)
-                    placeholder(R.drawable.ic_launcher_background)
+                if (subreddit.thumbnail.equals("self")
+                    || subreddit.thumbnail.equals("default")
+                    || subreddit.thumbnail?.isBlank() == true) {
+                    binding.thumbImg.visibility = View.GONE
+                } else {
+                    binding.thumbImg.visibility = View.VISIBLE
+                    binding.thumbImg.load(subreddit.thumbnail) { crossfade(true)
+                        placeholder(R.drawable.ic_launcher_background)
+                    }
                 }
             }
         }

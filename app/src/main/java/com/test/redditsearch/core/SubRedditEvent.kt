@@ -1,7 +1,6 @@
 package com.test.redditsearch.core
 
 import com.test.redditsearch.core.response.ApiSubredditResponse
-import com.test.redditsearch.subreddit.Subreddit
 
 /**
  * Events for SubRedditViewModel
