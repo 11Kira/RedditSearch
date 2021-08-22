@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.test.redditsearch.core.response.ApiSubredditResponse
 import com.test.redditsearch.databinding.ListItemSubredditBinding
+import com.test.redditsearch.subreddit.SubRedditBindingViewModel
 import com.test.redditsearch.subreddit.Subreddit
 
 /**
@@ -24,11 +25,8 @@ class RedditListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (itemCount > 0) {
             val subreddit = subredditList[position].data
-            val author = "Posted by: "
             holder.apply {
-                binding.titleTxt.text = subreddit.title
-                binding.subredditName.text = subreddit.subredditNamePrefixed
-                binding.authorTxt.text = author.plus(subreddit.author)
+                bind(position, subreddit)
                 binding.thumbImg.visibility = View.VISIBLE
                 if (subreddit.thumbnail.equals("self")
                     || subreddit.thumbnail.equals("default")
@@ -61,10 +59,17 @@ class RedditListAdapter(
     inner class ViewHolder(
         val binding: ListItemSubredditBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        private val viewModel = SubRedditBindingViewModel()
+
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(subredditList[bindingAdapterPosition].data)
             }
+        }
+        fun bind(position: Int, subreddit: Subreddit) {
+            viewModel.bind(subreddit)
+            binding.viewModel = viewModel
         }
     }
 }

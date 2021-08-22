@@ -109,7 +109,7 @@ class MainActivity : BaseActivity() {
     private fun initSearch(searchBox: AppCompatEditText) {
         searchBox.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s != null && s.toString().trim().isNotBlank()) {
+                if (s != null && s.toString().trim().isNotBlank() && s.length >= 3) {
                     binding.searchResultList.visibility = View.VISIBLE
                     val txt = s.toString().trim()
                     searchSubReddit(txt)

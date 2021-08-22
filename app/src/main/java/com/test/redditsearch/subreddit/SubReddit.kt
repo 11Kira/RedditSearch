@@ -13,14 +13,14 @@ data class Subreddit(
     @SerializedName("title")
     val title: String = "",
     @SerializedName("subreddit_name_prefixed")
-    val subredditNamePrefixed: String? = "",
+    val subredditNamePrefixed: String = "",
     @SerializedName("permalink")
     val permalink: String? = "",
     @SerializedName("thumbnail")
     val thumbnail: String? = "",
     @SerializedName("author")
-    val author: String? = "",
+    val author: String = "",
     @SerializedName("display_name_prefixed")
-    val displayNamePrefixed: String? = "",
+    val displayNamePrefixed: String = "",
 
 ): Serializable
