@@ -7,4 +7,9 @@ package com.test.redditsearch.subreddit
 class SubRedditRepo(private val subRedditApi: SubRedditApi) {
 
     suspend fun retrieveSubReddits() = subRedditApi.getAllSubreddits().body()
+
+    suspend fun searchSubReddit(
+        searchQuery: String,
+        type: String
+    ) = subRedditApi.searchSubreddit(searchQuery, type).body()
 }

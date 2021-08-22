@@ -16,5 +16,7 @@ data class Subreddit(
     val thumbnail: String? = "",
     @SerializedName("author")
     val author: String? = "",
+    @SerializedName("display_name_prefixed")
+    val displayNamePrefixed: String? = "",
 
 ): Serializable
