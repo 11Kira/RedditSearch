@@ -82,7 +82,6 @@ class SubRedditViewModel : BaseViewModel() {
                         if (subreddits.isEmpty()) {
                             _events.value = SubRedditDetailsEvent.OnNoAvailable
                         } else {
-                            Log.e("testSubReddits", subreddits.toString())
                             _events.value = SubRedditDetailsEvent.OnFinishedLoadingDetails(subreddits)
                         }
                     }
