@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.test.redditsearch.subreddit.SubRedditBindingViewModel"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_margin="12dp"
         android:layout_width="match_parent"
@@ -26,6 +32,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:text="@{viewModel.getTitle}"
                     android:layout_marginTop="5dp"
                     android:textColor="#FF4500"
                     android:layout_marginStart="20dp"
@@ -42,6 +49,7 @@
                     android:maxLines="1"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:text="@{viewModel.getSubredditName}"
                     android:textColor="@color/white"
                     android:maxLength="50"
                     android:singleLine="true"
@@ -56,6 +64,7 @@
                     tools:text="Subreddit Name" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:text="@{viewModel.getAuthorName}"
                     android:textColor="@color/white"
                     android:maxLength="50"
                     android:singleLine="true"
