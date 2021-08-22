@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RedditSearch</string>
+
+    <string name="err_no_network">Open settings and ensure you have a WIFI or data connection</string>
+    <string name="btn_settings">SETTINGS</string>
+    <string name="btn_close">CLOSE</string>
+    <string name="no_connectivity">No connectivity</string>
+    <string name="ok">Ok</string>
 </resources>
